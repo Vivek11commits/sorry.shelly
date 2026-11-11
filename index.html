@@ -1,0 +1,536 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Sorry Shelly ❤️</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    overflow: hidden;
+    font-family: 'Segoe UI', sans-serif;
+
+    background:
+        radial-gradient(circle at 10% 10%, #ffe5ee, transparent 35%),
+        radial-gradient(circle at 90% 90%, #ffb5cd, transparent 40%),
+        linear-gradient(135deg, #e75480, #f7a9c4, #fbd3e1);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Background decorations */
+
+.rose {
+    position: fixed;
+    font-size: 42px;
+    opacity: .7;
+    z-index: 0;
+    pointer-events: none;
+    animation: sway 4s ease-in-out infinite;
+}
+
+.r1 {top: 5%; left: 5%;}
+.r2 {top: 10%; right: 7%; animation-delay: 1s;}
+.r3 {bottom: 8%; left: 7%; animation-delay: 2s;}
+.r4 {bottom: 8%; right: 6%; animation-delay: .5s;}
+
+@keyframes sway {
+    0%,100% {transform: rotate(-12deg) scale(1);}
+    50% {transform: rotate(12deg) scale(1.15);}
+}
+
+/* Main container */
+
+.app {
+    width: 100%;
+    max-width: 430px;
+    height: 100vh;
+    max-height: 800px;
+    padding: 20px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    text-align: center;
+    position: relative;
+    z-index: 2;
+}
+
+h1 {
+    color: white;
+    font-size: 36px;
+    text-shadow: 0 4px 12px #92264f;
+    margin-bottom: 8px;
+}
+
+.subtitle {
+    color: white;
+    font-size: 15px;
+    margin-bottom: 22px;
+}
+
+/* Progress bars */
+
+.progress {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 12px;
+}
+
+.bar {
+    flex: 1;
+    height: 5px;
+    border-radius: 20px;
+    background: #ffffff80;
+    overflow: hidden;
+}
+
+.bar.active {
+    background: white;
+}
+
+/* Card */
+
+.story {
+    height: 490px;
+    width: 100%;
+
+    position: relative;
+    overflow: hidden;
+
+    border-radius: 30px;
+    border: 3px solid white;
+
+    background: linear-gradient(
+        145deg,
+        #fff0f5,
+        #ffc1d6,
+        #ffe5ed
+    );
+
+    box-shadow: 0 15px 45px #8d194d55;
+
+    touch-action: pan-y;
+}
+
+.content {
+    height: 100%;
+    padding: 25px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    animation: enter .45s ease;
+}
+
+@keyframes enter {
+    from {
+        opacity: 0;
+        transform: translateX(50px) scale(.9);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+    }
+}
+
+/* Big stickers */
+
+.sticker {
+    font-size: 135px;
+    line-height: 1.5;
+
+    filter: drop-shadow(0 10px 8px #c94d7960);
+
+    animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+    0%,100% {
+        transform: translateY(0) rotate(-5deg);
+    }
+
+    50% {
+        transform: translateY(-15px) rotate(5deg);
+    }
+}
+
+h2 {
+    color: #c2185b;
+    font-size: 29px;
+    margin: 12px 0;
+}
+
+.message {
+    color: #873652;
+    font-size: 17px;
+    line-height: 1.7;
+    max-width: 310px;
+}
+
+.hint {
+    color: white;
+    font-size: 14px;
+    margin-top: 18px;
+    text-shadow: 0 2px 5px #a52a59;
+}
+
+/* Floating flowers and hearts */
+
+.floating {
+    position: fixed;
+    bottom: -60px;
+    pointer-events: none;
+    z-index: 1;
+
+    animation: floatUp linear forwards;
+}
+
+@keyframes floatUp {
+    from {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+    }
+
+    to {
+        transform: translateY(-115vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* Last screen */
+
+.special {
+    color: #c2185b;
+    font-size: 19px;
+    margin-top: 15px;
+    font-weight: bold;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- Background roses -->
+
+<div class="rose r1">🌹</div>
+<div class="rose r2">🌸</div>
+<div class="rose r3">🌷</div>
+<div class="rose r4">🌹</div>
+
+<div class="app">
+
+    <h1>I'm Sorry Shelly ❤️</h1>
+
+    <p class="subtitle">
+        A little apology from my heart 🥺
+    </p>
+
+    <div class="progress" id="progress"></div>
+
+    <div class="story" id="story">
+
+        <div class="content" id="content"></div>
+
+    </div>
+
+    <p class="hint">
+        💗 Tap anywhere or swipe to continue 💗
+    </p>
+
+</div>
+
+<script>
+
+/* Seven Sorry Cards */
+
+const cards = [
+
+{
+emoji: "😭",
+title: "Sorry Shelly",
+message:
+"Shelly, I'm really sorry. I never wanted to hurt you. Please forgive me. ❤️"
+},
+
+{
+emoji: "🥺",
+title: "Please Don't Be Sad",
+message:
+"Shelly, your smile is precious. I wish I could make everything better. Please don't stay upset."
+},
+
+{
+emoji: "🧸",
+title: "A Teddy For Shelly",
+message:
+"Sending you the biggest teddy hug, Shelly. I hope this little teddy brings a smile to your face. 🧸"
+},
+
+{
+emoji: "💔",
+title: "I Feel Sorry",
+message:
+"Shelly, I understand my mistake. I genuinely regret it. I never wanted to make you feel bad."
+},
+
+{
+emoji: "🌹",
+title: "A Rose For You",
+message:
+"This beautiful rose is just for you, Shelly. May your days always be filled with happiness. 🌹"
+},
+
+{
+emoji: "🥹",
+title: "One More Chance",
+message:
+"Shelly, I hope we can talk and understand each other. I will try my best to do better."
+},
+
+{
+emoji: "❤️",
+title: "My Final Sorry",
+message:
+"Dear Shelly, no excuses, no arguments. Just one thing from my heart... I'M REALLY SORRY. ❤️"
+}
+
+];
+
+let current = 0;
+
+const content = document.getElementById("content");
+const progress = document.getElementById("progress");
+const story = document.getElementById("story");
+
+
+/* Display Card */
+
+function render() {
+
+    const card = cards[current];
+
+    content.style.animation = "none";
+
+    void content.offsetWidth;
+
+    content.style.animation = "enter .45s ease";
+
+    content.innerHTML = `
+
+        <div class="sticker">
+            ${card.emoji}
+        </div>
+
+        <h2>
+            ${card.title}
+        </h2>
+
+        <p class="message">
+            ${card.message}
+        </p>
+
+        ${current === 6 ?
+        '<div class="special">Shelly, Please Forgive Me ❤️</div>'
+        : ''}
+
+    `;
+
+    progress.innerHTML = "";
+
+    cards.forEach((item, index) => {
+
+        const bar = document.createElement("div");
+
+        bar.className = "bar";
+
+        if(index <= current) {
+            bar.classList.add("active");
+        }
+
+        progress.appendChild(bar);
+
+    });
+
+}
+
+
+/* Next Card */
+
+function next() {
+
+    if(current < cards.length - 1) {
+
+        current++;
+
+    } else {
+
+        current = 0;
+
+    }
+
+    render();
+
+}
+
+
+/* Previous Card */
+
+function previous() {
+
+    if(current > 0) {
+
+        current--;
+
+        render();
+
+    }
+
+}
+
+
+/* Tap to Next */
+
+story.addEventListener("click", () => {
+
+    next();
+
+});
+
+
+/* Swipe Animation */
+
+let startX = 0;
+let startY = 0;
+let endX = 0;
+
+story.addEventListener("touchstart", (e) => {
+
+    startX = e.changedTouches[0].screenX;
+    startY = e.changedTouches[0].screenY;
+
+}, {passive: true});
+
+
+story.addEventListener("touchend", (e) => {
+
+    endX = e.changedTouches[0].screenX;
+
+    let endY = e.changedTouches[0].screenY;
+
+    const diffX = startX - endX;
+    const diffY = startY - endY;
+
+    if(Math.abs(diffX) > 45 &&
+       Math.abs(diffX) > Math.abs(diffY)) {
+
+        if(diffX > 0) {
+
+            next();
+
+        } else {
+
+            previous();
+
+        }
+
+    }
+
+}, {passive: true});
+
+
+/* Mouse Swipe for Laptop */
+
+let mouseStart = 0;
+
+story.addEventListener("mousedown", (e) => {
+
+    mouseStart = e.clientX;
+
+});
+
+story.addEventListener("mouseup", (e) => {
+
+    const diff = mouseStart - e.clientX;
+
+    if(Math.abs(diff) > 45) {
+
+        if(diff > 0) {
+            next();
+        } else {
+            previous();
+        }
+
+    }
+
+});
+
+
+/* Floating Roses, Flowers and Hearts */
+
+function createFloating() {
+
+    const element = document.createElement("div");
+
+    element.className = "floating";
+
+    const emojis = [
+        "🌹",
+        "🌸",
+        "🌷",
+        "💗",
+        "❤️",
+        "🌺",
+        "💕",
+        "💖"
+    ];
+
+    element.innerHTML =
+        emojis[Math.floor(Math.random() * emojis.length)];
+
+    element.style.left = Math.random() * 100 + "vw";
+
+    element.style.fontSize =
+        (20 + Math.random() * 30) + "px";
+
+    const duration = 5 + Math.random() * 5;
+
+    element.style.animationDuration = duration + "s";
+
+    document.body.appendChild(element);
+
+    setTimeout(() => {
+
+        element.remove();
+
+    }, duration * 1000);
+
+}
+
+setInterval(createFloating, 450);
+
+
+/* Initial Display */
+
+render();
+
+</script>
+
+</body>
+</html>
